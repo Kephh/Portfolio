@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaif"s Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="introduction" id="introduction">
+        <h1>Hello, I'm <span id="name-text">Kaif</span></h1>
+        <h2>and this is my portfolio.</h2>
+        <a href="#about"><button class="know-more">Know More</button></a>
+    </div>
+    <header id="navbar">
+        <div class="left-nav"></div>
+        <div class="right-nav">
+            <ul>
+                <li><a href="#introduction">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section class="about" id="about">
+            <h1>About Me</h1>
+            <div class="sub-about">
+                <div class="about-description">
+                    <p>Fully committed to the philosophy of life-long learning, I’m a full stack developer with a deep
+                        passion for JavaScript, React and all things web development. While i lack expertise in some
+                        fields,
+                        i make
+                        up for it with my enthusiasm. The unique combination of creativity, logic,
+                        technology and never running out of new things to discover, drives my excitement and passion for
+                        web
+                        development. When I’m not at my computer I like to spend my time reading, keeping fit and
+                        playing
+                        games.</p>
+                </div>
+                <div class="about-imgs">
+                    <div class="row-imgs-1">
+                        <img src=".\images\css.png" alt="css">
+                        <img src=".\images\js.png" alt="js">
+                    </div>
+                    <div class="row-imgs-2">
+                        <img src=".\images\html.png" alt="html">
+                    </div>
+                    <div class="row-imgs-3">
+                        <img src=".\images\php.png" alt="php">
+                        <img src=".\images\sql.png" alt="sql">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="projects" id="projects">
+            <h1>Projects</h1>
+            <div class="projects-details">
+                <img src=".\images\BerryBerry.png" alt="BerryBerry">
+                
+                <div class="project-description">
+                    <p>A website about engagement with users while also getting to use ecommerce website.</p>
+                    <div class="site">
+                        <a href="http://beriberi.free.nf">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="contact" id="contact">
+            <h1 class="contact-heading">Contact</h1>
+            <p class="contact-text">Have a question or want to work together? Leave your details and I'll get back to you as soon as possible.</p>
+            <div class="input-fields">
+                <form class="contact-form" action="#" method="POST">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name">
+                    <br>
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email">
+                    <br>
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" cols="30" rows="5"></textarea>
+                    <button type="button" class="submit" id="form-submit">Submit</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="up">
+            <button><a href="#introduction">up</a></button>
+        </div>
+        <a href="https://github.com/Kephh"><img src="./images/github.png" alt="github"></a>
+        <a href="mailto: work.kaif2912@gmail.com"><img src="./images/mail.png" alt="Email"></a>
+    </footer>
+
+</body>
+
+</html>
