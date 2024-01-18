@@ -157,8 +157,13 @@ font-weight: 200;
     padding-top: 4vw;
     padding: 4vw 2vw;
 }
-.projects-details img{
+.projects-details a{
+    text-decoration: none;
+    color: inherit;
     width: 60%;
+}
+.projects-details img{
+    width: 100%;
     max-width: 100%;
     height: auto;
     margin-bottom: 1vw;
