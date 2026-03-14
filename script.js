@@ -23,6 +23,11 @@ document.addEventListener('mousemove', (e) => {
   mouseY = e.clientY;
 });
 
+document.addEventListener('touchmove', (e) => {
+  mouseX = e.touches[0].clientX;
+  mouseY = e.touches[0].clientY;
+}, { passive: true });
+
 // --- LAYER 1: Soft Blended Color Blobs ---
 const blobs = [
   { x: 0.3, y: 0.3, r: 400, color: 'rgba(192, 139, 48, 0.22)', phase: 0, speed: 0.4 },
@@ -118,7 +123,8 @@ class MicroParticle {
   }
 }
 
-const PARTICLE_COUNT = 220;
+const isMobile = window.innerWidth < 768;
+const PARTICLE_COUNT = isMobile ? 100 : 220;
 let particles = [];
 
 function initParticles() {
