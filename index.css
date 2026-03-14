@@ -4,10 +4,10 @@
 :root {
   /* Warm Palette — No blue */
   --bg-primary: #faf8f5;
-  --bg-secondary: #ffffff;
-  --bg-warm: #f5f0ea;
-  --bg-card: rgba(255, 255, 255, 0.8);
-  --bg-card-hover: rgba(255, 255, 255, 1);
+  --bg-secondary: transparent;
+  --bg-warm: transparent;
+  --bg-card: rgba(255, 255, 255, 0.75);
+  --bg-card-hover: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(160, 130, 100, 0.1);
   --glass-border-hover: rgba(160, 130, 100, 0.2);
 
@@ -23,7 +23,7 @@
   --gradient-primary: linear-gradient(135deg, #8b6914, #c08b30, #d4a24a);
   --gradient-warm: linear-gradient(135deg, #c4613a, #c08b30);
   --gradient-glow: linear-gradient(135deg, rgba(139,105,20,0.06), rgba(192,139,48,0.06));
-  --gradient-bg-hero: linear-gradient(160deg, #faf8f5 0%, #f5f0ea 30%, #fdf5e6 60%, #faf8f5 100%);
+  --gradient-bg-hero: transparent;
 
   --shadow-sm: 0 1px 3px rgba(44,36,24,0.04), 0 1px 2px rgba(44,36,24,0.06);
   --shadow-md: 0 4px 20px rgba(44,36,24,0.06);
@@ -144,7 +144,7 @@ img {
 
 .navbar.scrolled {
   backdrop-filter: blur(20px);
-  background: rgba(250, 248, 245, 0.88);
+  background: rgba(250, 248, 245, 0.75);
   border-bottom: 1px solid var(--glass-border);
   padding: 10px 0;
   box-shadow: var(--shadow-sm);
@@ -351,7 +351,8 @@ img {
 }
 
 .btn-outline {
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
   color: var(--text-primary);
   border: 1.5px solid var(--glass-border);
   box-shadow: var(--shadow-sm);
@@ -496,7 +497,7 @@ section {
 /* ===== ABOUT ===== */
 #about {
   padding: var(--section-padding);
-  background: var(--bg-secondary);
+  background: transparent;
 }
 
 .about-grid {
@@ -535,7 +536,8 @@ section {
 
 .about-highlight-card {
   padding: 24px;
-  background: var(--bg-primary);
+  background: rgba(250, 248, 245, 0.8);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   transition: var(--transition-smooth);
@@ -588,7 +590,7 @@ section {
 /* ===== SKILLS ===== */
 #skills {
   padding: var(--section-padding);
-  background: var(--bg-warm);
+  background: transparent;
 }
 
 .skills-grid {
@@ -599,7 +601,8 @@ section {
 
 .skill-category {
   padding: 28px;
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   transition: var(--transition-smooth);
@@ -686,7 +689,7 @@ section {
 /* ===== EXPERIENCE ===== */
 #experience {
   padding: var(--section-padding);
-  background: var(--bg-secondary);
+  background: transparent;
 }
 
 .timeline {
@@ -741,7 +744,8 @@ section {
 
 .timeline-card {
   padding: 28px;
-  background: var(--bg-primary);
+  background: rgba(250, 248, 245, 0.8);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   transition: var(--transition-smooth);
@@ -811,7 +815,7 @@ section {
 /* ===== PROJECTS ===== */
 #projects {
   padding: var(--section-padding);
-  background: var(--bg-warm);
+  background: transparent;
 }
 
 .projects-grid {
@@ -822,7 +826,8 @@ section {
 
 .project-card {
   padding: 32px;
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   transition: var(--transition-smooth);
@@ -924,7 +929,7 @@ section {
 /* ===== EDUCATION ===== */
 #education {
   padding: var(--section-padding);
-  background: var(--bg-secondary);
+  background: transparent;
 }
 
 .education-grid {
@@ -937,7 +942,8 @@ section {
 
 .education-card {
   padding: 32px;
-  background: var(--bg-primary);
+  background: rgba(250, 248, 245, 0.8);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   transition: var(--transition-smooth);
@@ -1000,7 +1006,7 @@ section {
 /* ===== ACHIEVEMENTS ===== */
 #achievements {
   padding: var(--section-padding);
-  background: var(--bg-warm);
+  background: transparent;
 }
 
 .achievements-grid {
@@ -1013,7 +1019,8 @@ section {
 
 .achievement-card {
   padding: 32px;
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   transition: var(--transition-smooth);
@@ -1063,7 +1070,7 @@ section {
 /* ===== CONTACT ===== */
 #contact {
   padding: var(--section-padding);
-  background: var(--bg-secondary);
+  background: transparent;
 }
 
 .contact-wrapper {
@@ -1098,7 +1105,8 @@ section {
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
-  background: var(--bg-primary);
+  background: rgba(250, 248, 245, 0.8);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   transition: var(--transition-smooth);
@@ -1137,7 +1145,8 @@ section {
 
 .contact-form {
   padding: 32px;
-  background: var(--bg-primary);
+  background: rgba(250, 248, 245, 0.8);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-sm);
@@ -1159,7 +1168,7 @@ section {
 .form-group textarea {
   width: 100%;
   padding: 14px 16px;
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.6);
   border: 1.5px solid var(--glass-border);
   border-radius: var(--border-radius-sm);
   color: var(--text-primary);
@@ -1196,7 +1205,7 @@ section {
   z-index: 1;
   padding: 40px 0;
   border-top: 1px solid var(--glass-border);
-  background: var(--bg-primary);
+  background: transparent;
 }
 
 .footer .container {
@@ -1221,7 +1230,8 @@ section {
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   display: flex;
   align-items: center;

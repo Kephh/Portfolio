@@ -1,6 +1,6 @@
-// ===== ANTIGRAVITY PARTICLE DOTS — Canvas-based scattered dashes =====
-// Inspired by the Antigravity IDE website: small colored dashes scattered
-// across the viewport that drift and react to mouse proximity.
+// ===== BLENDED COLOR BLOBS + SUBTLE MICRO-PARTICLES =====
+// Layer 1: Soft gradient color blobs that follow mouse gently (aurora effect)
+// Layer 2: Very tiny, semi-transparent particles for texture
 
 const canvas = document.createElement('canvas');
 canvas.id = 'particle-canvas';
@@ -8,155 +8,147 @@ document.body.prepend(canvas);
 const ctx = canvas.getContext('2d');
 
 let W, H;
-let mouseX = -1000, mouseY = -1000;
-const MOUSE_RADIUS = 180;
-const MOUSE_FORCE = 0.08;
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let smoothMouseX = mouseX, smoothMouseY = mouseY;
 
 function resizeCanvas() {
   W = canvas.width = window.innerWidth;
   H = canvas.height = window.innerHeight;
 }
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
 
 document.addEventListener('mousemove', (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
 });
 
-// Particle colors — warm palette: brown, terracotta, amber, olive, muted rose
-const COLORS = [
-  '#8b6914',  // brown gold
-  '#c08b30',  // warm amber
-  '#c4613a',  // terracotta
-  '#d4a24a',  // golden
-  '#a07850',  // mocha
-  '#7a8450',  // olive
-  '#d48a6a',  // salmon
-  '#9e7044',  // sienna
-  '#b8956a',  // tan
-  '#c9785a',  // burnt orange
+// --- LAYER 1: Soft Blended Color Blobs ---
+const blobs = [
+  { x: 0.3, y: 0.3, r: 400, color: 'rgba(192, 139, 48, 0.22)', phase: 0, speed: 0.4 },
+  { x: 0.7, y: 0.2, r: 350, color: 'rgba(196, 97, 58, 0.18)', phase: 1.5, speed: 0.3 },
+  { x: 0.5, y: 0.7, r: 420, color: 'rgba(139, 105, 20, 0.20)', phase: 3.0, speed: 0.35 },
+  { x: 0.2, y: 0.8, r: 320, color: 'rgba(212, 162, 74, 0.15)', phase: 4.5, speed: 0.25 },
+  { x: 0.8, y: 0.6, r: 380, color: 'rgba(160, 120, 80, 0.18)', phase: 2.0, speed: 0.3 },
 ];
 
-class Particle {
-  constructor() {
-    this.reset();
+function drawBlobs(time) {
+  // Smooth mouse follow
+  smoothMouseX += (mouseX - smoothMouseX) * 0.15;
+  smoothMouseY += (mouseY - smoothMouseY) * 0.15;
+
+  const mouseOffsetX = (smoothMouseX / W - 0.5) * 150;
+  const mouseOffsetY = (smoothMouseY / H - 0.5) * 150;
+
+  for (const blob of blobs) {
+    const driftX = Math.cos(time * blob.speed + blob.phase) * 40;
+    const driftY = Math.sin(time * blob.speed * 0.8 + blob.phase) * 35;
+
+    const bx = blob.x * W + driftX + mouseOffsetX * (blob.speed / 0.4);
+    const by = blob.y * H + driftY + mouseOffsetY * (blob.speed / 0.4);
+
+    const gradient = ctx.createRadialGradient(bx, by, 0, bx, by, blob.r);
+    gradient.addColorStop(0, blob.color);
+    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(bx - blob.r, by - blob.r, blob.r * 2, blob.r * 2);
   }
+}
+
+// --- LAYER 2: Micro-Particles (very tiny, subtle) ---
+const COLORS = [
+  '#8b6914', '#c08b30', '#c4613a', '#d4a24a',
+  '#a07850', '#7a8450', '#b8956a', '#c9785a',
+];
+
+class MicroParticle {
+  constructor() { this.reset(); }
 
   reset() {
     this.x = Math.random() * W;
     this.y = Math.random() * H;
     this.originX = this.x;
     this.originY = this.y;
-    this.size = Math.random() * 3 + 1.5;
-    this.length = Math.random() * 8 + 4;
-    this.angle = Math.random() * Math.PI * 2;
-    this.targetAngle = this.angle;
+    this.size = Math.random() * 2 + 1;          // small dots: 1 - 3px
     this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-    this.opacity = Math.random() * 0.5 + 0.2;
+    this.opacity = Math.random() * 0.3 + 0.15;   // visible: 0.15 - 0.45
     this.baseOpacity = this.opacity;
-    // Gentle drifting
-    this.driftSpeed = Math.random() * 0.2 + 0.05;
-    this.driftAngle = Math.random() * Math.PI * 2;
-    this.driftRadius = Math.random() * 15 + 5;
+    this.driftSpeed = Math.random() * 0.15 + 0.03;
+    this.driftRadius = Math.random() * 10 + 3;
     this.phase = Math.random() * Math.PI * 2;
-    // Velocity for mouse repulsion
     this.vx = 0;
     this.vy = 0;
   }
 
   update(time) {
-    // Gentle autonomous floating
     const driftX = Math.cos(time * this.driftSpeed + this.phase) * this.driftRadius;
     const driftY = Math.sin(time * this.driftSpeed * 0.7 + this.phase) * this.driftRadius;
-
     const targetX = this.originX + driftX;
     const targetY = this.originY + driftY;
 
-    // Mouse repulsion
-    const dx = this.x - mouseX;
-    const dy = this.y - mouseY;
+    // Gentle mouse repulsion
+    const dx = this.x - smoothMouseX;
+    const dy = this.y - smoothMouseY;
     const dist = Math.sqrt(dx * dx + dy * dy);
 
-    if (dist < MOUSE_RADIUS && dist > 0) {
-      const force = (1 - dist / MOUSE_RADIUS) * MOUSE_FORCE;
-      const ax = (dx / dist) * force * 60;
-      const ay = (dy / dist) * force * 60;
-      this.vx += ax;
-      this.vy += ay;
-      this.opacity = Math.min(this.baseOpacity + 0.4, 1);
-      this.targetAngle = Math.atan2(dy, dx);
+    if (dist < 140 && dist > 0) {
+      const force = (1 - dist / 140) * 0.04;
+      this.vx += (dx / dist) * force * 30;
+      this.vy += (dy / dist) * force * 30;
+      this.opacity = Math.min(this.baseOpacity + 0.25, 0.7);
     } else {
       this.opacity += (this.baseOpacity - this.opacity) * 0.03;
     }
 
-    // Spring back to origin + drift
-    this.vx += (targetX - this.x) * 0.015;
-    this.vy += (targetY - this.y) * 0.015;
-
-    // Damping
-    this.vx *= 0.92;
-    this.vy *= 0.92;
-
+    this.vx += (targetX - this.x) * 0.012;
+    this.vy += (targetY - this.y) * 0.012;
+    this.vx *= 0.94;
+    this.vy *= 0.94;
     this.x += this.vx;
     this.y += this.vy;
-
-    // Smoothly rotate toward target angle
-    let angleDiff = this.targetAngle - this.angle;
-    while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
-    while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-    this.angle += angleDiff * 0.08;
   }
 
   draw() {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
     ctx.globalAlpha = this.opacity;
-    ctx.strokeStyle = this.color;
-    ctx.lineWidth = this.size;
-    ctx.lineCap = 'round';
+    ctx.fillStyle = this.color;
     ctx.beginPath();
-    ctx.moveTo(-this.length / 2, 0);
-    ctx.lineTo(this.length / 2, 0);
-    ctx.stroke();
-    ctx.restore();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
   }
 }
 
-// Create particles
-const PARTICLE_COUNT = 280;
+const PARTICLE_COUNT = 220;
 let particles = [];
 
 function initParticles() {
   particles = [];
   for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push(new Particle());
+    particles.push(new MicroParticle());
   }
 }
 initParticles();
 
-// Re-init on resize
-window.addEventListener('resize', () => {
-  resizeCanvas();
-  initParticles();
-});
-
 let startTime = performance.now();
 
-function animateParticles() {
+function animate() {
   ctx.clearRect(0, 0, W, H);
   const time = (performance.now() - startTime) / 1000;
 
+  // Draw soft blended blobs first
+  drawBlobs(time);
+
+  // Draw tiny particles on top
   for (const p of particles) {
     p.update(time);
     p.draw();
   }
+  ctx.globalAlpha = 1;
 
-  requestAnimationFrame(animateParticles);
+  requestAnimationFrame(animate);
 }
 
-animateParticles();
+animate();
 
 
 // ===== TYPING EFFECT =====
@@ -351,13 +343,13 @@ document.querySelectorAll('.btn').forEach(btn => {
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
-    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+    btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
     btn.style.transition = 'transform 0.1s ease-out';
   });
 
   btn.addEventListener('mouseleave', () => {
     btn.style.transform = '';
-    btn.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    btn.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
   });
 });
 
