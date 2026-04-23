@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Documentation and Personal Files
+*.pdf
+*.txt
+resume_text.txt
+
+# AI Tooling
+antigravity.config.json

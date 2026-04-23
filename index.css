@@ -18,7 +18,7 @@
   --accent-brown: #8b6914;
   --accent-warm: #c08b30;
   --accent-terracotta: #c4613a;
-  --accent-olive: #7a8450;
+  --accent-olive: #4fbb76;
   --accent-cream: #e8d5b5;
   --gradient-primary: linear-gradient(135deg, #8b6914, #c08b30, #d4a24a);
   --gradient-warm: linear-gradient(135deg, #c4613a, #c08b30);
@@ -1323,6 +1323,12 @@ section {
   z-index: 1001;
   transition: width 0.1s linear;
   border-radius: 0 2px 2px 0;
+}
+
+/* ===== SPINNER KEYFRAME (contact form loading) ===== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* ===== RESPONSIVE ===== */

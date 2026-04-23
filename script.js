@@ -161,10 +161,9 @@ animate();
 const typedTextEl = document.getElementById('typed-text');
 const roles = [
   'Software Engineer',
-  'Backend Developer',
+  'Full Stack Developer',
   'Microservices Architect',
-  'Spring Boot Specialist',
-  'API Designer'
+  'Systems Designer'
 ];
 
 let roleIndex = 0;
@@ -360,27 +359,52 @@ document.querySelectorAll('.btn').forEach(btn => {
 });
 
 
-// ===== CONTACT FORM =====
+// ===== CONTACT FORM (Web3Forms AJAX) =====
 const contactForm = document.getElementById('contact-form');
 
-contactForm.addEventListener('submit', (e) => {
+contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const submitBtn = document.getElementById('form-submit');
   const originalText = submitBtn.innerHTML;
 
+  // Loading state
   submitBtn.innerHTML = `
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-    Message Sent!
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+    Sending...
   `;
-  submitBtn.style.background = 'linear-gradient(135deg, #7a8450, #6b7a42)';
-  submitBtn.style.color = '#fff';
+  submitBtn.disabled = true;
+
+  try {
+    const formData = new FormData(contactForm);
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData,
+    });
+    const result = await response.json();
+
+    if (result.success) {
+      submitBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Message Sent!
+      `;
+      submitBtn.style.background = 'linear-gradient(135deg, #7a8450, #6b7a42)';
+      submitBtn.style.color = '#fff';
+      contactForm.reset();
+    } else {
+      throw new Error(result.message || 'Something went wrong');
+    }
+  } catch (err) {
+    submitBtn.innerHTML = `⚠️ Failed — try again`;
+    submitBtn.style.background = 'linear-gradient(135deg, #c4613a, #a04a2a)';
+    submitBtn.style.color = '#fff';
+  }
 
   setTimeout(() => {
     submitBtn.innerHTML = originalText;
     submitBtn.style.background = '';
     submitBtn.style.color = '';
-    contactForm.reset();
+    submitBtn.disabled = false;
   }, 3000);
 });
 
@@ -388,8 +412,10 @@ contactForm.addEventListener('submit', (e) => {
 // ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (!href || href === '#') return; // skip bare # links
     e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
+    const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
     }
